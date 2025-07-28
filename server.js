@@ -56,10 +56,10 @@ console.log("📂 Serving static files from:", frontendPath);
 app.use(express.static(frontendPath));
 
 // Catch-all route: serve index.html for React Router
-app.get('*', (req, res) => {
-  console.log("⚡ Fallback route triggered. Serving index.html");
-  res.sendFile(path.join(frontendPath, 'index.html'));
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
 });
+
 
 // -------------------------
 // Start the server
