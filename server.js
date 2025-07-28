@@ -51,15 +51,14 @@ app.use('/api/admin', require('./routes/adminAuth')); // Admin Auth Route
 // -------------------------
 // Serve React Frontend
 // -------------------------
-app.use(express.static(path.join(__dirname, 'client', 'dist')));
-
-// Debug log for static serving
-console.log("📂 Serving static files from:", path.join(__dirname, 'client', 'dist'));
+const frontendPath = path.join(__dirname, 'client', 'dist');
+console.log("📂 Serving static files from:", frontendPath);
+app.use(express.static(frontendPath));
 
 // Catch-all route: serve index.html for React Router
 app.get('*', (req, res) => {
   console.log("⚡ Fallback route triggered. Serving index.html");
-  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+  res.sendFile(path.join(frontendPath, 'index.html'));
 });
 
 // -------------------------
