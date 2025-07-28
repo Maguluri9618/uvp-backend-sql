@@ -51,20 +51,19 @@ app.use('/api/admin', require('./routes/adminAuth')); // Admin Auth Route
 // -------------------------
 // Serve React Frontend
 // -------------------------
-const frontendPath = path.join(__dirname, 'client', 'dist');
-console.log("📂 Serving static files from:", frontendPath);
-app.use(express.static(frontendPath));
+const distPath = path.join(__dirname, 'client', 'dist');
+console.log("📂 Serving static files from:", distPath);
+app.use(express.static(distPath));
 
-// Catch-all route: serve index.html for React Router
-app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
+// Fallback route for React (fixes path-to-regexp error)
+app.get('*', function (req, res) {
+  res.sendFile(path.join(distPath, 'index.html'));
 });
-
 
 // -------------------------
 // Start the server
 // -------------------------
-const PORT = process.env.PORT || 5000; // Azure will assign the port
+const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
   console.log(`🚀 Server running at http://localhost:${PORT}`);
 });
