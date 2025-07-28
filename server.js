@@ -49,12 +49,16 @@ app.use('/api/articles', require('./routes/articles'));
 app.use('/api/admin', require('./routes/adminAuth')); // Admin Auth Route
 
 // -------------------------
-// Serve React Frontend (Fix for Express v5)
+// Serve React Frontend
 // -------------------------
 app.use(express.static(path.join(__dirname, 'client', 'dist')));
 
+// Debug log for static serving
+console.log("📂 Serving static files from:", path.join(__dirname, 'client', 'dist'));
+
 // Catch-all route: serve index.html for React Router
-app.get(/.*/, (req, res) => {
+app.get('*', (req, res) => {
+  console.log("⚡ Fallback route triggered. Serving index.html");
   res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
 });
 
@@ -62,4 +66,6 @@ app.get(/.*/, (req, res) => {
 // Start the server
 // -------------------------
 const PORT = process.env.PORT || 5000; // Azure will assign the port
-app.listen(PORT, () => console.log(`🚀 Server running at http://localhost:${PORT}`));
+app.listen(PORT, () => {
+  console.log(`🚀 Server running at http://localhost:${PORT}`);
+});
